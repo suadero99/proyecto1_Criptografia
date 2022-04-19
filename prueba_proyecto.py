@@ -11,6 +11,7 @@ from Crypto.Random import get_random_bytes
 
 from matplotlib import pyplot as plt
 import numpy as np
+import binascii
 import time
 
 #-----------Hashes-----------
@@ -50,13 +51,25 @@ def encryptionAES_ECB():
   cipher = AES.new(key, AES.MODE_ECB)
 
   ciphertext = cipher.encrypt(pad(data,32))
+  decryptionChaCha20 = 
 
+def decryptionAES_ECB(ciphertext):
+  decipher = AES.new(key, AES.MODE_ECB)
+  plaintext = decipher.decrypt(binascii.unhexlify(binascii.hexlify(ciphertext)))
+  
   #This is only for showing coded message purposes
   #print(ciphertext)
   
 def encryptionChaCha20():
   cipher = ChaCha20.new(key=keyChaCha)
   ciphertext = cipher.encrypt(data)
+  decryptionChaCha20(ciphertext)
+
+def decryptionChaCha20(ciphertext):
+  decipher = ChaCha20.new(key=keyChaCha)
+  plaintext = decipher.decrypt(ciphertext)
+
+
 
   #This is only for showing coded message purposes
   #nonce = b64encode(cipher.nonce).decode('utf-8')
@@ -115,7 +128,6 @@ def main():
   timeAESGCM = round(time.perf_counter() - timeAESGCM, 4)
   cypherTimes.append(timeAESGCM)
   print('---------Fin: AES-GCM para cifrado---------\n')
-
   print('---------Inicio: AES-ECB para cifrado---------')
   timeAESECB = time.perf_counter()
   for x in range(0,num_exec):
