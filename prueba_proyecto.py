@@ -418,12 +418,12 @@ def main():
   
   print('***** Signing Times:')
   print('RSA-PSS: ' + str(timeRSA_PSS_sign) + '\n'
-    + 'ECDSA-Prime' + str(timeECDSA_prime_sign) + '\n'
-    + 'ECDSA-Binary' + str(timeECDSA_bin_sign) + '\n\n')
+    + 'ECDSA-Prime: ' + str(timeECDSA_prime_sign) + '\n'
+    + 'ECDSA-Binary: ' + str(timeECDSA_bin_sign) + '\n\n')
 
   print('***** Verifying Times:')
   print('RSA-PSS: ' + str(timeRSA_PSS_verify) + '\n'
-    + 'ECDSA-Prime' + str(timeECDSA_prime_verify) + '\n\n')
+    + 'ECDSA-Prime: ' + str(timeECDSA_prime_verify) + '\n\n')
 
   #plot our encryption times
   graphtitle = "Encryption times for " + str(num_exec) + " iterations\n"
