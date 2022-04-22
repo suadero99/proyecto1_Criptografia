@@ -241,9 +241,9 @@ def timesECDSA_bin(private_key,public_key):
 
   timeECDSA_bin_ver = time.perf_counter()
   public_key.verify(signature,data,ec.ECDSA(hashes.SHA256()))
-  timeECDSA_bin_ver = round(time.perf_counter() - timeECDSA_bin_sign, 6)
+  timeECDSA_bin_ver = round(time.perf_counter() - timeECDSA_bin_ver, 6)
 
-  return timeECDSA_bin_sign
+  return timeECDSA_bin_sign,timeECDSA_bin_ver
 
 #Graph data vs time
 #x and y are lists of our indexes values
