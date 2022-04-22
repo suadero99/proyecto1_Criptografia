@@ -1,4 +1,4 @@
-from ecdsa import SigningKey
+from ecdsa import SigningKey, NIST521p
 
 
 sk = SigningKey.generate(curve=NIST521p)
