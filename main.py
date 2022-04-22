@@ -8,6 +8,8 @@ def install(package):
 #installing packages
 install('pycryptodome')
 install('matplotlib')
+install('ecdsa')
+install('cryptography')
 
 #Executing script
 subprocess.call(['python','./prueba_proyecto.py'])
