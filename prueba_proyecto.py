@@ -230,7 +230,7 @@ def timesECDSA_prime(sk):
 
   return timeECDSA_prime_sign,timeECDSA_prime_ver
 
-def timesECDSA_bin(private_key):
+def timesECDSA_bin(private_key,public_key):
   #private_key = ec.generate_private_key(ec.SECT571R1())
   data = b"data"
 
@@ -238,6 +238,10 @@ def timesECDSA_bin(private_key):
   signature = private_key.sign(data,ec.ECDSA(hashes.SHA256()))
   timeECDSA_bin_sign = round(time.perf_counter() - timeECDSA_bin_sign, 6)
   #print(signature)
+
+  timeECDSA_bin_ver = time.perf_counter()
+  public_key.verify(signature,data,ec.ECDSA(hashes.SHA256()))
+  timeECDSA_bin_ver = round(time.perf_counter() - timeECDSA_bin_sign, 6)
 
   return timeECDSA_bin_sign
 
@@ -276,7 +280,7 @@ def main():
   decypherList = ['ChaCha20','AES-GCM','AES-ECB','RSA-OAEP']#,'RSA-OAEP']
   hashingList = ['SHA2-384','SHA2-512','SHA3-384','SHA3-512']#,'ECDSA-Prime','ECDSA-Binary']
   signingList = ['RSA-PSS','ECDSA-Prime','ECDSA-Binary']
-  verifyingList = ['RSA-PSS','ECDSA-Prime']
+  verifyingList = ['RSA-PSS','ECDSA-Prime','ECDSA-Binary']
   
   #List of times to display in ylabel of graphs
   #where our times will be stored
@@ -312,6 +316,7 @@ def main():
   timeECDSA_prime_verify = 0
   #for ecdsa_binary
   timeECDSA_bin_sign = 0
+  timeECDSA_bin_ver = 0
 
 
 
@@ -390,11 +395,14 @@ def main():
 
   print('---------Inicio: ECDSA binary---------')
   private_key = ec.generate_private_key(ec.SECT571R1())
+  public_key = private_key.public_key()
   for x in range(0,num_exec):
-    aux1 = timesECDSA_bin(private_key)
+    aux1,aux2 = timesECDSA_bin(private_key,public_key)
     timeECDSA_bin_sign += aux1
+    timeECDSA_bin_ver += aux2
     #print(x)
   signingTimes.append(timeECDSA_bin_sign)
+  verifyingTimes.append(timeECDSA_bin_ver)
   print('---------Fin: ECDSA binary---------')
 
   print('***** Encryption Times:')
@@ -423,7 +431,8 @@ def main():
 
   print('***** Verifying Times:')
   print('RSA-PSS: ' + str(timeRSA_PSS_verify) + '\n'
-    + 'ECDSA-Prime: ' + str(timeECDSA_prime_verify) + '\n\n')
+    + 'ECDSA-Prime: ' + str(timeECDSA_prime_verify) + '\n'
+    + 'ECDSA-Binary: ' + str(timeECDSA_bin_ver) + '\n\n')
 
   #plot our encryption times
   graphtitle = "Encryption times for " + str(num_exec) + " iterations\n"
